@@ -17,14 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from demo import views
-from rest_framework.routers import DefaultRouter
+# from rest_framework.routers import DefaultRouter
 
-router = DefaultRouter()
+# router = DefaultRouter()
 
-router.register('studentdemo', views.StudentModelViewset, basename='student')
+# router.register('studentdemo', views.StudentModelViewset, basename='student')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include(router.urls)),
+    # path('',include(router.urls)),
     path('demo/', include('demo.urls')), 
 ]

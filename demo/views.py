@@ -41,7 +41,7 @@ class UserLogin(APIView):
 
 class GetUserInfo(APIView):
     # authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser]   #IsAuthenticated  AllowAny  
     def get(self,request):
         # queryset = Student.objects.all()
         # Serializer_class = StudentSerializers
