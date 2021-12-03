@@ -13,11 +13,11 @@ from django.shortcuts import render
 # Create your views here.
 
 
-class StudentModelViewset(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
-    Serializer_class = StudentSerializers
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [AllowAny]
+# class StudentModelViewset(viewsets.ModelViewSet):
+#     queryset = Student.objects.all()
+#     Serializer_class = StudentSerializers
+#     authentication_classes = [BasicAuthentication]
+#     permission_classes = [AllowAny]
 
 
 class Register(APIView):
@@ -31,20 +31,18 @@ class Register(APIView):
         user.save()
         return Response({'success': True})
 
-class UserLogin(APIView):
-    def post(self, request):
-        data=request.data
-        if(User.objects.filter(username=data['user_name'],password=data['password']).exists()):
-            status={ 'success': True, 'name': data['user_name']}
-            return Response(status)
-        return Response({'success': False, 'message':'invalid username or pasword'})
+# class UserLogin(APIView):
+#     def post(self, request):
+#         data=request.data
+#         if(User.objects.filter(username=data['user_name'],password=data['password']).exists()):
+#             status={ 'success': True, 'name': data['user_name']}
+#             return Response(status)
+#         return Response({'success': False, 'message':'invalid username or pasword'})
 
 class GetUserInfo(APIView):
     # authentication_classes = [BasicAuthentication]
     permission_classes = [IsAdminUser]   #IsAuthenticated  AllowAny  
     def get(self,request):
-        # queryset = Student.objects.all()
-        # Serializer_class = StudentSerializers
         
         return Response({'success': False, 'message':'invalid username or pasword'})
         
