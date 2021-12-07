@@ -6,9 +6,11 @@ from .models import Student
 from rest_framework import viewsets
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from rest_framework.decorators import api_view,permission_classes
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth.models import User
+
 # Create your views here.
 
 
@@ -20,6 +22,18 @@ from django.contrib.auth.models import User
 
 def index(request):
     return render(request,'index.html')
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])   #IsAuthenticated  AllowAny
+def administrator(request):
+    return render(request, 'superuser.html')
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])   #IsAdminUser  AllowAny
+def authenticUser(request):
+    return render( request,'authenticUser.html')
+
 
 def register(request):
     if request.method == 'POST':
@@ -40,6 +54,10 @@ def register(request):
 
     else:
         return render(request,'Register.html')
+
+
+
+
 
 # class Register(APIView):
 #     def post(self,request):
@@ -69,3 +87,8 @@ class GetUserInfo(APIView):
         
         return Response({'success': False, 'message':'invalid username or pasword'})
         
+
+
+# git add .
+# git commit -m "message"
+# git push origin main
