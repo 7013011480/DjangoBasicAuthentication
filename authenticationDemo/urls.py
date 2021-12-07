@@ -26,5 +26,5 @@ from demo import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('',include(router.urls)),
-    path('demo/', include('demo.urls')), 
+    path('', include('demo.urls')), 
 ]
