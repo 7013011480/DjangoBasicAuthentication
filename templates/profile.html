@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User_Profile</title>
+</head>
+<body>
+    Profile!!
+    <br>
+    Logout out of the current user:<a href="{% url 'logout'%}">Logout</a><br><br>
+    page only accessed by superuser: <a href ="{% url 'administrator'%}">Click here</a><br><br>
+    page only accessed by authenticated users: <a href="{% url 'authenticUser'%}">Click here</a><br>
+</body>
+</html>

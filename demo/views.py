@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from rest_framework.serializers import Serializer
 from django.http import JsonResponse
@@ -9,8 +10,9 @@ from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.contrib.auth.models import User
-
+from django.contrib.auth.models import User,auth
+from django.contrib.auth import authenticate, logout as userLogout,login as userLogin
+from django.contrib import messages
 # Create your views here.
 
 
@@ -23,17 +25,46 @@ from django.contrib.auth.models import User
 def index(request):
     return render(request,'index.html')
 
-@api_view(['GET'])
-@permission_classes([IsAdminUser])   #IsAuthenticated  AllowAny
+
+# @api_view(['GET'])
+# @permission_classes([IsAdminUser])   #IsAuthenticated  AllowAny
 def administrator(request):
-    return render(request, 'superuser.html')
+    if request.user.is_superuser:
+       return render(request, 'superuser.html')
+    else:
+        messages.info(request,'u r not superUser')
+        return render(request,'profile.html')
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])   #IsAdminUser  AllowAny
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated])   #IsAdminUser  AllowAny
 def authenticUser(request):
-    return render( request,'authenticUser.html')
+    if request.user.is_authenticated:
+       return render( request,'authenticUser.html')
 
+def login(request):
+    # if request.method == 'POST':
+    username = request.POST['username']
+    password = request.POST['password']
+
+    user = authenticate(username = username, password = password)
+
+    if user is not None:
+        userLogin(request,user)
+        # return HttpResponse('u r logged in successfully')
+        return render(request,'profile.html')
+    else:
+        # message.info(request, 'invalid credentials')
+        return redirect('login')
+
+
+def loginPage(request):
+        # if request.method == 'GET':
+    return render(request,'login.html')
+
+def logout(request):
+    userLogout(request)
+    return redirect('/')
 
 def register(request):
     if request.method == 'POST':
@@ -72,13 +103,13 @@ def register(request):
 #         return redirect('/')
 #         # return Response({'success': True})
 
-class UserLogin(APIView):
-    def post(self, request):
-        data=request.data
-        if(User.objects.filter(username=data['user_name'],password=data['password']).exists()):
-            status={ 'success': True, 'name': data['user_name']}
-            return Response(status)
-        return Response({'success': False, 'message':'invalid username or pasword'})
+# class UserLogin(APIView):
+#     def post(self, request):
+#         data=request.data
+#         if(User.objects.filter(username=data['username'],password=data['password']).exists()):
+#             status={ 'success': True, 'name': data['user_name']}
+#             return Response(status)
+#         return Response({'success': False, 'message':'invalid username or pasword'})
 
 class GetUserInfo(APIView):
     # authentication_classes = [BasicAuthentication]
